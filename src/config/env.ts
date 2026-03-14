@@ -24,8 +24,17 @@ function parseNodeEnv(rawEnv: string | undefined): NodeEnv {
   return value;
 }
 
+function requireValue(value: string | undefined, key: string): string {
+  if (!value) {
+    throw new Error(`${key} is required`);
+  }
+
+  return value;
+}
+
 export const env = {
   nodeEnv: parseNodeEnv(process.env.NODE_ENV),
   port: parsePort(process.env.PORT),
-  corsOrigin: process.env.CORS_ORIGIN ?? "*"
+  corsOrigin: process.env.CORS_ORIGIN ?? "*",
+  databaseUrl: requireValue(process.env.DATABASE_URL, "DATABASE_URL")
 };
